@@ -1,0 +1,6 @@
+"id";"Username";"Password";"Email";"UserCharacter";"Favorites"
+1;"admin";"admin";"123@gmail.com";"Admin";"0"
+2;"user01";"user";"456@gmail.com";"User";"12,3,6,5,"
+3;"user02";"user";"789@gmail.com";"User";"0"
+4;"user03";"user";"111@gmail.com";"User";"5,11,"
+5;"user04";"user";"";"User";"0"

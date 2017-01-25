@@ -1,0 +1,208 @@
+@CHARSET "UTF-8";
+
+body {
+	background-image: url(Final_BG.jpg);
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-attachment: fixed
+}
+
+parent {
+	display: table;
+	width: 100%;
+}
+
+form.form_login {
+	display: table-cell;
+	text-align: left;
+	vertical-align: middle;
+}
+
+h1.subHeadLine {
+	text-align: center;
+	color: white;
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 250%;
+}
+
+h1.homeHeadLine {
+	text-align: left;
+	color: white;
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 250%;
+}
+
+h1.headline {
+	text-align: center;
+	color: white;
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 350%;
+}
+
+td.text {
+	color: white;
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 110%;
+}
+
+div.login_box {
+	width: 340px;
+	height: 220px;
+	overflow: auto;
+	position: fixed;
+	left: 50%;
+	top: 35%;
+	margin-left: -170px;
+	align: center;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+div.game_box {
+	width: 640px;
+	height: 350px;
+	overflow: auto;
+	position: fixed;
+	left: 50%;
+	top: 35%;
+	margin-left: -320px;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+div.signin_box {
+	width: 500px;
+	height: 320px;
+	overflow: auto;
+	position: fixed;
+	left: 50%;
+	top: 25%;
+	margin-left: -250px;
+	align: center;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+div.contact {
+	position: fixed;
+	width: 600px;
+	height: 250px;
+	left: 50%;
+	margin-left: -300px;
+	top: 35%;
+	padding: 40px;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+div.headline {
+	width: 100%;
+	padding: 35px;
+	align: center;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+a.text {
+	color: white;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #555461;
+}
+
+.navbar {
+	margin-bottom: 50px;
+	border-radius: 0;
+}
+
+.jumbotron {
+	margin-bottom: 0;
+}
+
+div.my_footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 40px;
+	overflow: hidden;
+	background-color: rgba(169, 169, 169, 0.9);
+}
+
+div.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 40px;
+	overflow: hidden;
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+div.popupcontent {
+	position: fixed;
+	margin-left: -400px;
+	visibility: hidden;
+	overflow: hidden;
+	padding: 55px;
+	z-index: 9999;
+	background-color: rgba(0, 0, 0, 0.9);
+}
+
+div.editcontent {
+	position: fixed;
+	margin-left: -400px;
+	visibility: hidden;
+	overflow: hidden;
+	padding: 55px;
+	z-index: 9999;
+	background-color: rgba(0, 0, 0, 0.9);
+}
+
+p.my_footer_text {
+	color: black;
+	text-align: center;
+	font-family: Arial, Verdana, Sans-serif;
+	margin-top: 10px;
+	font-size: 100%;
+}
+
+p.footer_text {
+	color: black;
+	text-align: center;
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 90%;
+}
+
+p.normal_text {
+	color: white;
+	text-align: center;
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 130%;
+}
+
+td.text {
+	color: white;
+	text-align: center;
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 100%;
+}
+
+td.info_text {
+	color: white;
+	text-align: left;
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 100%;
+}
+
+td.big_text {
+	color: white;
+	text-align: center;
+	font-family: Arial, Verdana, Sans-serif;
+	font-size: 150%;
+}
+
+table.my_table_list {
+	align: center;
+	border: 1;
+	cellpadding: 10;
+	cellspacing: 20;
+	background-color: rgba(0, 0, 0, 0.6);
+}
