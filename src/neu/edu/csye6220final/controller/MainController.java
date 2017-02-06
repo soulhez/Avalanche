@@ -41,7 +41,7 @@ public class MainController {
 
 	private Session session;
 
-	private int id;
+	private int id = 0;
 
 	private String filePath = "e:\\CSE6220\\CSYE6220FinalProject\\WebContent\\img\\";
 
@@ -60,7 +60,7 @@ public class MainController {
 				printWriter.write("passerror".getBytes());
 			} else if (udi.GetUserByName(Username, Password, session)[0].equals("Success")) {
 				id = Integer.valueOf(udi.GetUserByName(Username, Password, session)[1]);
-				if (udi.GetUserByName(Username, Password, session)[2].equals("Admin")) {
+				if (udi.GetUserByName(Username, Password, session)[2].equals("ROLE_ADMIN")) {
 					printWriter.write("admin".getBytes());
 				} else {
 					printWriter.write("user".getBytes());
@@ -129,41 +129,60 @@ public class MainController {
 
 	@RequestMapping("/UserHome")
 	public String toUserHome(HttpServletRequest req, HttpServletResponse rep) {
-		List<Games> games = new ArrayList<Games>();
-		for (int counter = 1; counter <= 6; counter++) {
-			session = sessionFactory.getCurrentSession();
-			games.add(gdi.GetGames(session, counter));
+		if (id == 0) {
+			return "index";
+		} else {
+			List<Games> games = new ArrayList<Games>();
+			for (int counter = 1; counter <= 6; counter++) {
+				session = sessionFactory.getCurrentSession();
+				// gdi.getAllGames(session);
+				games.add(gdi.getAllGames(session).get(counter));
+			}
+			req.setAttribute("Gamelist", games);
+			return "UserHome";
 		}
-		req.setAttribute("Gamelist", games);
-		return "UserHome";
 	}
 
 	@RequestMapping("/UserGames")
 	public String toUserGames(HttpServletRequest req, HttpServletResponse rep) {
-		session = sessionFactory.getCurrentSession();
-		List<Games> allgames = gdi.getAllGames(session);
-		req.setAttribute("AllGameList", allgames);
-		return "UserGames";
+		if (id == 0) {
+			return "index";
+		} else {
+			session = sessionFactory.getCurrentSession();
+			List<Games> allgames = gdi.getAllGames(session);
+			req.setAttribute("AllGameList", allgames);
+			return "UserGames";
+		}
 	}
 
 	@RequestMapping("/UserAccount")
 	public String toUserAccount(HttpServletRequest req, HttpServletResponse rep) {
-		session = sessionFactory.getCurrentSession();
-		req.setAttribute("username", udi.GetUser(session, this.id));
-		String favoritegames = udi.GetUserObj(session, this.id).getFavorites();
-		List<Games> games = new ArrayList<Games>();
-
-		if (favoritegames.equals("0")) {
-			req.setAttribute("nofav", "You do not have any favorite games, let's add some!");
+		if (id == 0) {
+			return "index";
 		} else {
-			String str[] = favoritegames.split(",");
-			for (int counter = 0; counter < str.length; counter++) {
-				session = sessionFactory.getCurrentSession();
-				games.add(gdi.GetGames(session, Integer.parseInt(str[counter])));
+			session = sessionFactory.getCurrentSession();
+			req.setAttribute("username", udi.GetUser(session, this.id));
+			String favoritegames = udi.GetUserObj(session, this.id).getFavorites();
+			List<Games> games = new ArrayList<Games>();
+			List<Games> allgames = new ArrayList<Games>();
+			allgames = gdi.getAllGames(session);
+
+			if (favoritegames.equals("0")) {
+				req.setAttribute("nofav", "You do not have any favorite games, let's add some!");
+			} else {
+				String str[] = favoritegames.split(",");
+				for (int counter = 0; counter < str.length; counter++) {
+					session = sessionFactory.getCurrentSession();
+					for (int counter_1 = 0; counter_1 < allgames.size(); counter_1++) {
+						if (allgames.get(counter_1).getId() == Integer.parseInt(str[counter])) {
+							games.add(allgames.get(counter_1));
+						}
+					}
+				}
 			}
+			req.setAttribute("Gamelist", games);
+			return "UserAccount";
 		}
-		req.setAttribute("Gamelist", games);
-		return "UserAccount";
 	}
 
 	@RequestMapping("/addFavorite")
@@ -265,24 +284,48 @@ public class MainController {
 
 	@RequestMapping("/toList")
 	public String toGameList(HttpServletRequest req, HttpServletResponse rep) {
-		session = sessionFactory.getCurrentSession();
-		List<Games> allgames = gdi.getAllGames(session);
-		req.setAttribute("AllGameList", allgames);
-		return "GameList";
+		if (id == 0) {
+			return "index";
+		} else {
+			session = sessionFactory.getCurrentSession();
+			List<Games> allgames = gdi.getAllGames(session);
+			req.setAttribute("AllGameList", allgames);
+			return "GameList";
+		}
 	}
 
 	@RequestMapping("/toEdit")
 	public String toEditGame(String ID, HttpServletRequest req) {
+		if (id == 0) {
+			return "index";
+		} else {
+			session = sessionFactory.getCurrentSession();
+			String gameid = "";
+			try {
+				gameid = URLDecoder.decode(ID, "utf-8");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			req.setAttribute("gametoedit", gdi.GetGames(session, Integer.parseInt(gameid)));
+			return "EditGame";
+		}
+	}
+
+	@RequestMapping("/toRemove")
+	public void toRemoveGame(String ID, HttpServletResponse rep) throws IOException {
 		session = sessionFactory.getCurrentSession();
 		String gameid = "";
 		try {
 			gameid = URLDecoder.decode(ID, "utf-8");
+			gdi.DeleteGame(Integer.parseInt(gameid), session);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		req.setAttribute("gametoedit", gdi.GetGames(session, Integer.parseInt(gameid)));
-		return "EditGame";
+		// req.setAttribute("gametoedit", gdi.GetGames(session,
+		// Integer.parseInt(gameid)));
+		// return "GameList";
 	}
 
 	@RequestMapping("/updateGames")
@@ -326,7 +369,11 @@ public class MainController {
 
 	@RequestMapping("/AdminHome")
 	public String toAdminHome() {
-		return "AdminHome";
+		if (id == 0) {
+			return "index";
+		} else {
+			return "AdminHome";
+		}
 	}
 
 	@RequestMapping("/SignUp")
@@ -341,12 +388,20 @@ public class MainController {
 
 	@RequestMapping("/index")
 	public String toIndex_2() {
-		return "index";
+		if (id == 0) {
+			return "index";
+		} else {
+			return "index";
+		}
 	}
 
 	@RequestMapping("/Contact")
 	public String toContact() {
-		return "Contact";
+		if (id == 0) {
+			return "index";
+		} else {
+			return "Contact";
+		}
 	}
 
 }
